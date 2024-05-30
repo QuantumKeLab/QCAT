@@ -106,7 +106,7 @@ def analysis_crosstalk_value( z1, z2, data ):
     offset = np.mean(data)
     data -= offset
 
-    data, axes = get_extend(data, [z1, z2], 100)
+    data, axes = get_extend(data, [z1, z2], 1000)
     # data, axes = get_interp(data, [d_z_target_amp, d_z_crosstalk_amp], 100)
     # print(axes[0].shape, axes[1].shape, data.shape)
     f_axes = get_freq_axes( axes )

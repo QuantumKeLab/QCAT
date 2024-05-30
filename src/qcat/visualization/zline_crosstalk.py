@@ -24,7 +24,41 @@ def _plot_rawdata( x, y, z, slope, ax=None ):
     y is compensation voltage (self)
     """
     ax.pcolormesh(x, y, z, cmap='gray')
-    ax.plot([x[0],x[-1]],[ x[0]*slope, x[-1]*slope ],color="r",linewidth=5)
+
+    # 新增部分：設定 x 和 y 的範圍
+    x_min, x_max = min(x), max(x)
+    y_min, y_max = min(y), max(y)
+    # 根據斜率和x, y的範圍計算斜線的實際起止點
+    start_y = x_min * slope
+    end_y = x_max * slope
+    # 調整斜線的起止點以符合 x 和 y 的範圍
+    if slope > 0.:
+        if start_y < y_min:
+            start_x = y_min / slope
+            start_y = y_min
+        else:
+            start_x = x_min
+        if end_y > y_max:
+            end_x = y_max / slope
+            end_y = y_max
+        else:
+            end_x = x_max
+    else:
+        if start_y > y_max:
+            start_x = y_max / slope
+            start_y = y_max
+        else:
+            start_x = x_min
+        if end_y < y_min:
+            end_x = y_min / slope
+            end_y = y_min
+        else:
+            end_x = x_max
+    # 繪制調整後的斜線
+    ax.plot([start_x, end_x], [start_y, end_y], color="red", linewidth=5)
+
+
+    # ax.plot([x[0],x[-1]],[ x[0]*slope, x[-1]*slope ],color="r",linewidth=5)
     ax.set_title('Original Image')
     ax.set_xlabel(f"Crosstalk Delta Voltage (mV)")
     ax.set_ylabel(f"Compensation Delta Voltage (mV)")

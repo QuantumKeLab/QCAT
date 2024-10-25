@@ -81,7 +81,7 @@ def plot_readout_fidelity( dataset:xr.DataArray, gmm_ROfidelity:GMMROFidelity, g
         p01 = g1d_ROfidelity.g1d_dist[0][0][1]
         
         effective_T = p01_to_Teff(p01, frequency)
-        fig.text(0.05,0.15,f"Effective temperature (mK)={effective_T*1000:.1f}", fontsize = 20)
+        fig.text(0.05,0.15,f"Effective temperature (mK)={effective_T*1000:.2f}", fontsize = 20)
     else:
         p01 = state_probability[0][1]
         effective_T = 0
@@ -150,8 +150,8 @@ def _plot_iq_shots( idata, qdata, label, ax:plt.Axes, prepare_state:int=None, pr
     ax.set_xlabel('I Voltage Signal', fontsize=20)
     ax.set_ylabel('Q Voltage Signal', fontsize=20)
     if prepare_state is not None:
-        ax.text(0.07,0.9,f"P({prepare_state}|0)={probability[0]:.3f}", fontsize = 20, transform=ax.transAxes)
-        ax.text(0.07,0.8,f"P({prepare_state}|1)={probability[1]:.3f}", fontsize = 20, transform=ax.transAxes)
+        ax.text(0.07,0.9,f"P({prepare_state}|0)={probability[0]:.4f}", fontsize = 20, transform=ax.transAxes)
+        ax.text(0.07,0.8,f"P({prepare_state}|1)={probability[1]:.4f}", fontsize = 20, transform=ax.transAxes)
     
 from lmfit.models import GaussianModel
 from lmfit.model import ModelResult
@@ -165,8 +165,8 @@ def _plot_1Ddistribution( bin_center, hist, results, prepare_state:int, probabil
     _plot_gaussian_fit_curve( bin_center, results, ax)
     ax.set_yscale('log')
     ax.set_ylim(1e-3,np.max(hist)*1.5)
-    ax.text(0.07,0.9,f"P({prepare_state}|0)={probability[0]:.3f}", fontsize = 20, transform=ax.transAxes)
-    ax.text(0.07,0.8,f"P({prepare_state}|1)={probability[1]:.3f}", fontsize = 20, transform=ax.transAxes)
+    ax.text(0.07,0.9,f"P({prepare_state}|0)={probability[0]:.4f}", fontsize = 20, transform=ax.transAxes)
+    ax.text(0.07,0.8,f"P({prepare_state}|1)={probability[1]:.4f}", fontsize = 20, transform=ax.transAxes)
     
     ax.set_xlabel('Projected Voltage Signal', fontsize=18)
 

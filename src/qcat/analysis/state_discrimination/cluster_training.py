@@ -122,7 +122,7 @@ class GMMLabelMap():
 
         """
         if "prepared_state" not in list(data.dims):
-            print("No axis is called 'state' in coords")
+            print("No axis is called 'prepared_state' in coords")
             data = None     
         self.raw_data = data
 
@@ -130,7 +130,6 @@ class GMMLabelMap():
 
         mapping_arr = np.array(self.label_assign.mapping_arr)
         label_data = self.raw_data.values
-        print(label_data)
 
         # print(self.label_assign.state_map,self.label_assign.label_map)
         # flat_array = label_data.flatten()

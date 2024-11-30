@@ -37,7 +37,6 @@ class GMMROFidelity( QCATAna ):
         
         training_DataArray = self.raw_data.stack( new_index=('index', 'prepared_state'))
         training_DataArray = training_DataArray.transpose( "new_index", "mixer" )
-        print(training_DataArray)
         training_data = training_DataArray.values
  
         self.cluster_trainer = GMMClusterTrainer()
@@ -67,7 +66,6 @@ class GMMROFidelity( QCATAna ):
     def _create_state_label_mapping( self, trained_model )->GMMLabelAssign:
 
         ave_iq = self.raw_data.mean(dim="index")
-        print(ave_iq)
         label_assign = GMMLabelAssign( trained_model )
         label_assign._import_data(ave_iq)
         label_assign._start_analysis()
@@ -134,7 +132,7 @@ class G1DROFidelity( QCATAna ):
         self.discriminator._start_analysis()
 
         self.g1d_dist = []
-        for i in [0,1]:
+        for i in range(np.array(self.raw_data.coords['prepared_state']).shape[0]):
             self.g1d_dist.append( self._fit_distribution(self.raw_data[i]) )
                
 
@@ -189,6 +187,8 @@ class G1DROFidelity( QCATAna ):
         area = peak_value * sigma*np.sqrt(2*np.pi)
         probability = area/np.sum(area) 
         return probability
+
+
     
 
 if __name__ == '__main__':
@@ -206,7 +206,7 @@ if __name__ == '__main__':
     Qe = np.random.normal(e[1], std_dev, num_samples) 
     # ( ["state","mixer","index"], 
     data =  np.array([[Ig, Qg], [Ie, Qe]])
-    coords= [ ("prepared_state", [0,1]), ("mixer",["I","Q"]), ("index",np.arange( num_samples ))]
+    coords= [ ("compressed", [0,1]), ("mixer",["I","Q"]), ("index",np.arange( num_samples ))]
 
     dataarray = xr.DataArray( data=data, coords=coords )
 
@@ -218,7 +218,7 @@ if __name__ == '__main__':
     print(fidelity_qcat.state_probability)
 
     import matplotlib.pyplot as plt
-    plt.plot( dataarray.sel(mixer="I", prepared_state=0).values, dataarray.sel(mixer="Q", prepared_state=0).values, "o" )
-    plt.plot( dataarray.sel(mixer="I", prepared_state=1).values, dataarray.sel(mixer="Q", prepared_state=1).values, "o" )
+    plt.plot( dataarray.sel(mixer="I", compressed=0).values, dataarray.sel(mixer="Q", compressed=0).values, "o" )
+    plt.plot( dataarray.sel(mixer="I", compressed=1).values, dataarray.sel(mixer="Q", compressed=1).values, "o" )
     # plt.plot( Ie, Qe, 'o' )
     plt.show()

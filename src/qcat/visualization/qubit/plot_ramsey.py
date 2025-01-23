@@ -37,8 +37,10 @@ class PainterT2Ramsey( Painter ):
             ax.plot( time, self.fit_result.best_fit, label="fit")
             f = self.fit_result.params['f'].value
             phi = self.fit_result.params['phi'].value
+            tau = self.fit_result.params['tau'].value
             ax.text(0.1, 0.9, f"Driving Detuned: {f:.3f}", fontsize=10, transform=ax.transAxes)  
             ax.text(0.1, 0.8, f"Phase check: {phi:.3f} (should be pi/2)", fontsize=10, transform=ax.transAxes)  
+            ax.text(0.1, 0.7, f"Decay: {tau:.3f}", fontsize=10, transform=ax.transAxes)  
 
 
         plt.tight_layout()
